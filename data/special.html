@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Modes - LED Controller</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="back-button" onclick="window.location.href='index.html'">
+                <span>← Back</span>
+            </div>
+            <h1>Special Modes</h1>
+            <div class="status-badge" id="statusBadge">
+                <span class="status-dot"></span>
+                <span id="statusText">Disconnected</span>
+            </div>
+        </header>
+
+        <!-- Special Mode Selector -->
+        <div class="special-selector">
+            <button class="special-category-btn active christmas-theme" data-category="christmas" onclick="selectCategory('christmas')">
+                <span class="special-icon">🎄</span>
+                <span>Christmas</span>
+            </button>
+            <button class="special-category-btn sextrip-theme" data-category="sextrip" onclick="selectCategory('sextrip')">
+                <span class="special-icon">💜</span>
+                <span>Sex Trip</span>
+            </button>
+            <button class="special-category-btn fireplace-theme" data-category="fireplace" onclick="selectCategory('fireplace')">
+                <span class="special-icon">🔥</span>
+                <span>Fire Place</span>
+            </button>
+        </div>
+
+        <!-- Christmas Mode -->
+        <div class="special-mode-card active" id="christmas-card">
+            <div class="special-mode-header">
+                <h2>Christmas Mode</h2>
+                <p>Portuguese traditional colors. Each pattern runs for 10 minutes, cycling forever.</p>
+            </div>
+
+            <div class="christmas-submodes">
+                <h3>Available Patterns</h3>
+
+                <div class="submode-item" data-submode="1">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="christmas-submode-1" checked>
+                        <label for="christmas-submode-1">
+                            <span class="submode-name">Tradição Portuguesa</span>
+                            <span class="submode-desc">R|O|R|O blink → OFF → B|G|B|G blink</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('christmas', 1)">↑</button>
+                        <span class="order-number">1</span>
+                        <button onclick="moveDown('christmas', 1)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="2">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="christmas-submode-2" checked>
+                        <label for="christmas-submode-2">
+                            <span class="submode-name">Cores Alternadas</span>
+                            <span class="submode-desc">R|O|R|O fade → B|G|B|G (smooth transition)</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('christmas', 2)">↑</button>
+                        <span class="order-number">2</span>
+                        <button onclick="moveDown('christmas', 2)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="3">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="christmas-submode-3" checked>
+                        <label for="christmas-submode-3">
+                            <span class="submode-name">Quatro Cores</span>
+                            <span class="submode-desc">R|B|O|G|R|B|O|G all together</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('christmas', 3)">↑</button>
+                        <span class="order-number">3</span>
+                        <button onclick="moveDown('christmas', 3)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="4">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="christmas-submode-4" checked>
+                        <label for="christmas-submode-4">
+                            <span class="submode-name">Dança de Pares</span>
+                            <span class="submode-desc">R|O ON, B|G OFF → swap → repeat</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('christmas', 4)">↑</button>
+                        <span class="order-number">4</span>
+                        <button onclick="moveDown('christmas', 4)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="5">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="christmas-submode-5" checked>
+                        <label for="christmas-submode-5">
+                            <span class="submode-name">Luzes Completas</span>
+                            <span class="submode-desc">All 4 colors blink together, then alternate</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('christmas', 5)">↑</button>
+                        <span class="order-number">5</span>
+                        <button onclick="moveDown('christmas', 5)">↓</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="christmas-info">
+                <div class="info-row">
+                    <span>Selected:</span>
+                    <strong id="christmas-selectedCount">5</strong>
+                </div>
+                <div class="info-row">
+                    <span>Duration:</span>
+                    <strong>10 min each</strong>
+                </div>
+                <div class="info-row">
+                    <span>Cycle:</span>
+                    <strong>Forever ∞</strong>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetOrder('christmas')">
+                    <span>Reset Order</span>
+                </button>
+                <button class="btn btn-power christmas-power" onclick="startSpecialMode('christmas')">
+                    <span>Start Christmas</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sex Trip Mode -->
+        <div class="special-mode-card" id="sextrip-card">
+            <div class="special-mode-header">
+                <h2>Sex Trip Mode</h2>
+                <p>Sensual and vibrant color transitions. Each runs for 10 minutes, cycling forever.</p>
+            </div>
+
+            <div class="christmas-submodes">
+                <h3>Available Patterns</h3>
+
+                <div class="submode-item" data-submode="1">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="sextrip-submode-1" checked>
+                        <label for="sextrip-submode-1">
+                            <span class="submode-name">Purple Passion</span>
+                            <span class="submode-desc">Deep purple slow breathing pulse</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('sextrip', 1)">↑</button>
+                        <span class="order-number">1</span>
+                        <button onclick="moveDown('sextrip', 1)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="2">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="sextrip-submode-2" checked>
+                        <label for="sextrip-submode-2">
+                            <span class="submode-name">Pink Desire</span>
+                            <span class="submode-desc">Hot pink to magenta fade</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('sextrip', 2)">↑</button>
+                        <span class="order-number">2</span>
+                        <button onclick="moveDown('sextrip', 2)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="3">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="sextrip-submode-3" checked>
+                        <label for="sextrip-submode-3">
+                            <span class="submode-name">Crimson Wave</span>
+                            <span class="submode-desc">Red to deep pink wave effect</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('sextrip', 3)">↑</button>
+                        <span class="order-number">3</span>
+                        <button onclick="moveDown('sextrip', 3)">↓</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="christmas-info">
+                <div class="info-row">
+                    <span>Selected:</span>
+                    <strong id="sextrip-selectedCount">3</strong>
+                </div>
+                <div class="info-row">
+                    <span>Duration:</span>
+                    <strong>10 min each</strong>
+                </div>
+                <div class="info-row">
+                    <span>Cycle:</span>
+                    <strong>Forever ∞</strong>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetOrder('sextrip')">
+                    <span>Reset Order</span>
+                </button>
+                <button class="btn btn-power sextrip-power" onclick="startSpecialMode('sextrip')">
+                    <span>Start Sex Trip</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Fire Place Mode -->
+        <div class="special-mode-card" id="fireplace-card">
+            <div class="special-mode-header">
+                <h2>Fire Place Mode</h2>
+                <p>Warm fire effects. Each runs for 10 minutes, cycling forever.</p>
+            </div>
+
+            <div class="christmas-submodes">
+                <h3>Available Patterns</h3>
+
+                <div class="submode-item" data-submode="1">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="fireplace-submode-1" checked>
+                        <label for="fireplace-submode-1">
+                            <span class="submode-name">Burning Embers</span>
+                            <span class="submode-desc">Random orange and red flickers</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('fireplace', 1)">↑</button>
+                        <span class="order-number">1</span>
+                        <button onclick="moveDown('fireplace', 1)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="2">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="fireplace-submode-2" checked>
+                        <label for="fireplace-submode-2">
+                            <span class="submode-name">Gentle Flame</span>
+                            <span class="submode-desc">Smooth yellow to orange waves</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('fireplace', 2)">↑</button>
+                        <span class="order-number">2</span>
+                        <button onclick="moveDown('fireplace', 2)">↓</button>
+                    </div>
+                </div>
+
+                <div class="submode-item" data-submode="3">
+                    <div class="submode-checkbox">
+                        <input type="checkbox" id="fireplace-submode-3" checked>
+                        <label for="fireplace-submode-3">
+                            <span class="submode-name">Cozy Hearth</span>
+                            <span class="submode-desc">Deep red glow with amber sparkles</span>
+                        </label>
+                    </div>
+                    <div class="submode-order">
+                        <button onclick="moveUp('fireplace', 3)">↑</button>
+                        <span class="order-number">3</span>
+                        <button onclick="moveDown('fireplace', 3)">↓</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="christmas-info">
+                <div class="info-row">
+                    <span>Selected:</span>
+                    <strong id="fireplace-selectedCount">3</strong>
+                </div>
+                <div class="info-row">
+                    <span>Duration:</span>
+                    <strong>10 min each</strong>
+                </div>
+                <div class="info-row">
+                    <span>Cycle:</span>
+                    <strong>Forever ∞</strong>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-secondary" onclick="resetOrder('fireplace')">
+                    <span>Reset Order</span>
+                </button>
+                <button class="btn btn-power fireplace-power" onclick="startSpecialMode('fireplace')">
+                    <span>Start Fire Place</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="special.js"></script>
+</body>
+</html>

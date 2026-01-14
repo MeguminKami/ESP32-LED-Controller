@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Strip Controller</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LED Strip Controller</h1>
+            <div class="status-badge" id="statusBadge">
+                <span class="status-dot"></span>
+                <span id="statusText">Disconnected</span>
+            </div>
+        </header>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="solid" onclick="selectMode('solid')">
+                <span class="icon">●</span>
+                <span>Solid</span>
+            </button>
+            <button class="mode-btn" data-mode="wave" onclick="selectMode('wave')">
+                <span class="icon">〰</span>
+                <span>Wave</span>
+            </button>
+            <button class="mode-btn" data-mode="rainbow" onclick="selectMode('rainbow')">
+                <span class="icon">◐</span>
+                <span>Rainbow</span>
+            </button>
+            <button class="mode-btn" data-mode="fade" onclick="selectMode('fade')">
+                <span class="icon">◯</span>
+                <span>Fade</span>
+            </button>
+            <button class="mode-btn" data-mode="strobe" onclick="selectMode('strobe')">
+                <span class="icon">✦</span>
+                <span>Strobe</span>
+            </button>
+            <button class="mode-btn" data-mode="chase" onclick="selectMode('chase')">
+                <span class="icon">→</span>
+                <span>Chase</span>
+            </button>
+            <button class="mode-btn special-btn" onclick="window.location.href='special.html'">
+                <span class="icon">★</span>
+                <span>Special</span>
+            </button>
+        </div>
+
+        <!-- Solid Mode Controls -->
+        <div class="controls-panel active" id="solid-controls">
+            <h2>Solid Color</h2>
+            <div class="control-group">
+                <label for="solid-color">Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="solid-color" value="#ff6b6b">
+                    <span class="color-value">#ff6b6b</span>
+                </div>
+                <div class="color-palette" data-target="solid-color"></div>
+            </div>
+            <div class="control-group">
+                <label for="solid-brightness">Brightness</label>
+                <input type="range" id="solid-brightness" min="0" max="100" value="100">
+                <span class="value-display">100%</span>
+            </div>
+        </div>
+
+        <!-- Wave Mode Controls -->
+        <div class="controls-panel" id="wave-controls">
+            <h2>Wave Effect</h2>
+            <div class="control-group">
+                <label for="wave-color1">Start Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="wave-color1" value="#667eea">
+                    <span class="color-value">#667eea</span>
+                </div>
+                <div class="color-palette" data-target="wave-color1"></div>
+            </div>
+            <div class="control-group">
+                <label for="wave-color2">End Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="wave-color2" value="#764ba2">
+                    <span class="color-value">#764ba2</span>
+                </div>
+                <div class="color-palette" data-target="wave-color2"></div>
+            </div>
+            <div class="control-group">
+                <label for="wave-speed">Speed</label>
+                <input type="range" id="wave-speed" min="1" max="100" value="50">
+                <span class="value-display">50</span>
+            </div>
+            <div class="control-group">
+                <label for="wave-length">Wave Length</label>
+                <input type="range" id="wave-length" min="5" max="50" value="20">
+                <span class="value-display">20 LEDs</span>
+            </div>
+        </div>
+
+        <!-- Rainbow Mode Controls -->
+        <div class="controls-panel" id="rainbow-controls">
+            <h2>Rainbow Effect</h2>
+            <div class="control-group">
+                <label for="rainbow-speed">Speed</label>
+                <input type="range" id="rainbow-speed" min="1" max="100" value="30">
+                <span class="value-display">30</span>
+            </div>
+            <div class="control-group">
+                <label for="rainbow-brightness">Brightness</label>
+                <input type="range" id="rainbow-brightness" min="0" max="100" value="100">
+                <span class="value-display">100%</span>
+            </div>
+            <div class="control-group">
+                <label for="rainbow-saturation">Saturation</label>
+                <input type="range" id="rainbow-saturation" min="0" max="100" value="100">
+                <span class="value-display">100%</span>
+            </div>
+        </div>
+
+        <!-- Fade Mode Controls -->
+        <div class="controls-panel" id="fade-controls">
+            <h2>Fade Effect</h2>
+            <div class="control-group">
+                <label for="fade-color1">Color 1</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="fade-color1" value="#f093fb">
+                    <span class="color-value">#f093fb</span>
+                </div>
+                <div class="color-palette" data-target="fade-color1"></div>
+            </div>
+            <div class="control-group">
+                <label for="fade-color2">Color 2</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="fade-color2" value="#f5576c">
+                    <span class="color-value">#f5576c</span>
+                </div>
+                <div class="color-palette" data-target="fade-color2"></div>
+            </div>
+            <div class="control-group">
+                <label for="fade-speed">Transition Speed</label>
+                <input type="range" id="fade-speed" min="1" max="100" value="40">
+                <span class="value-display">40</span>
+            </div>
+            <div class="control-group">
+                <label for="fade-smooth">Smoothness</label>
+                <input type="range" id="fade-smooth" min="1" max="10" value="5">
+                <span class="value-display">5</span>
+            </div>
+        </div>
+
+        <!-- Strobe Mode Controls -->
+        <div class="controls-panel" id="strobe-controls">
+            <h2>Strobe Effect</h2>
+            <div class="control-group">
+                <label for="strobe-color">Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="strobe-color" value="#ffffff">
+                    <span class="color-value">#ffffff</span>
+                </div>
+                <div class="color-palette" data-target="strobe-color"></div>
+            </div>
+            <div class="control-group">
+                <label for="strobe-speed">Speed</label>
+                <input type="range" id="strobe-speed" min="1" max="50" value="15">
+                <span class="value-display">15 Hz</span>
+            </div>
+            <div class="control-group">
+                <label for="strobe-intensity">Intensity</label>
+                <input type="range" id="strobe-intensity" min="10" max="100" value="100">
+                <span class="value-display">100%</span>
+            </div>
+        </div>
+
+        <!-- Chase Mode Controls -->
+        <div class="controls-panel" id="chase-controls">
+            <h2>Theater Chase</h2>
+            <div class="control-group">
+                <label for="chase-color">Color</label>
+                <div class="color-input-wrapper">
+                    <input type="color" id="chase-color" value="#feca57">
+                    <span class="color-value">#feca57</span>
+                </div>
+                <div class="color-palette" data-target="chase-color"></div>
+            </div>
+            <div class="control-group">
+                <label for="chase-speed">Speed</label>
+                <input type="range" id="chase-speed" min="1" max="100" value="40">
+                <span class="value-display">40</span>
+            </div>
+            <div class="control-group">
+                <label for="chase-spacing">Spacing</label>
+                <input type="range" id="chase-spacing" min="1" max="10" value="3">
+                <span class="value-display">3 LEDs</span>
+            </div>
+            <div class="control-group">
+                <label for="chase-direction">
+                    <input type="checkbox" id="chase-direction">
+                    Reverse Direction
+                </label>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-secondary" id="forceApplyBtn" onclick="forceApplySettings()">
+                <span>Force Apply</span>
+            </button>
+            <button class="btn btn-power" id="powerBtn" onclick="togglePower()">
+                <span>Turn Off</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
