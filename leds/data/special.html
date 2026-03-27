@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Modes - LED Controller Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="special.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-gradient"></div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <button class="back-btn" onclick="window.location.href='index.html'">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div class="logo-text">
+                        <h1>Special Modes</h1>
+                        <span class="version">Themed Effects</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator" id="statusIndicator">
+                        <div class="status-dot"></div>
+                        <span id="statusText">Connecting...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Category Selection -->
+            <section class="category-section glass-panel">
+                <h2 class="card-title">Select Category</h2>
+                <div class="category-grid">
+                    <button class="category-card active" data-category="christmas" onclick="selectCategory('christmas')">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L14 8H20L15 12L17 18L12 14L7 18L9 12L4 8H10L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="currentColor" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <span class="category-label">Christmas</span>
+                        <span class="category-count" id="christmas-count">5 modes</span>
+                    </button>
+
+                    <button class="category-card" data-category="fire" onclick="selectCategory('fire')">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C12 2 8 6 8 11C8 14.31 10.69 17 14 17C17.31 17 20 14.31 20 11C20 6 16 2 16 2C16 2 15 4 14 6C13 4 12 2 12 2ZM12 20C9.24 20 7 17.76 7 15H5C5 18.87 8.13 22 12 22C15.87 22 19 18.87 19 15H17C17 17.76 14.76 20 12 20Z" stroke="currentColor" stroke-width="1.5" fill="currentColor" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <span class="category-label">Fireplace</span>
+                        <span class="category-count" id="fire-count">3 modes</span>
+                    </button>
+
+                    <button class="category-card" data-category="sextrip" onclick="selectCategory('sextrip')">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04097 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7564 11.2728 22.0329 10.6054C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.0621 22.0329 6.39464C21.7564 5.72718 21.351 5.12075 20.84 4.61Z" stroke="currentColor" stroke-width="2" fill="currentColor" opacity="0.3"/>
+                            </svg>
+                        </div>
+                        <span class="category-label">Sex Trip</span>
+                        <span class="category-count" id="sextrip-count">3 modes</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Christmas Category -->
+            <section class="modes-section glass-panel active" id="christmas-section">
+                <div class="modes-header">
+                    <h2 class="card-title">Christmas Effects</h2>
+                    <div class="modes-info">
+                        <span id="christmas-selected">5 selected</span>
+                        <button class="btn-reset" onclick="resetCategory('christmas')">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M3 12H7M3 12L6 9M3 12L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Reset Order
+                        </button>
+                    </div>
+                </div>
+
+                <div class="submodes-grid">
+                    <div class="submode-card" data-category="christmas" data-submode="1">
+                        <div class="submode-order">1</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Classic Christmas</h3>
+                                    <p>Traditional red and green alternating pattern</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="christmas" data-submode="1">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(90deg, #c0392b 0%, #c0392b 50%, #27ae60 50%, #27ae60 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('christmas', 1)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('christmas', 1)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="christmas" data-submode="2">
+                        <div class="submode-order">2</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Candy Cane Chase</h3>
+                                    <p>Red and white stripes moving across</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="christmas" data-submode="2">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: repeating-linear-gradient(45deg, #c0392b 0px, #c0392b 20px, #ffffff 20px, #ffffff 40px);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('christmas', 2)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('christmas', 2)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="christmas" data-submode="3">
+                        <div class="submode-order">3</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Snowy Twinkle</h3>
+                                    <p>Cool white lights with sparkling effect</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="christmas" data-submode="3">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: radial-gradient(circle, #ffffff 10%, #b3d9ff 40%, #e0f2ff 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('christmas', 3)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('christmas', 3)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="christmas" data-submode="4">
+                        <div class="submode-order">4</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Golden Ornament</h3>
+                                    <p>Warm gold and amber waves</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="christmas" data-submode="4">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('christmas', 4)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('christmas', 4)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="christmas" data-submode="5">
+                        <div class="submode-order">5</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Northern Lights</h3>
+                                    <p>Aurora borealis inspired gradient</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="christmas" data-submode="5">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(135deg, #00ff87 0%, #60efff 50%, #b893ff 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('christmas', 5)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('christmas', 5)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button class="btn-start" onclick="startSpecialMode('christmas')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+                        </svg>
+                        <span>Start Christmas Mode</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Fire Category -->
+            <section class="modes-section glass-panel" id="fire-section">
+                <div class="modes-header">
+                    <h2 class="card-title">Fireplace Effects</h2>
+                    <div class="modes-info">
+                        <span id="fire-selected">3 selected</span>
+                        <button class="btn-reset" onclick="resetCategory('fire')">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M3 12H7M3 12L6 9M3 12L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Reset Order
+                        </button>
+                    </div>
+                </div>
+
+                <div class="submodes-grid">
+                    <div class="submode-card" data-category="fire" data-submode="1">
+                        <div class="submode-order">1</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Realistic Fire</h3>
+                                    <p>Flickering flame simulation</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="fire" data-submode="1">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(0deg, #ff4500 0%, #ff6b00 40%, #ffa500 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('fire', 1)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('fire', 1)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="fire" data-submode="2">
+                        <div class="submode-order">2</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Hot Coals</h3>
+                                    <p>Smoldering ember glow</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="fire" data-submode="2">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: radial-gradient(circle, #ff2400 0%, #8b0000 70%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('fire', 2)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('fire', 2)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="fire" data-submode="3">
+                        <div class="submode-order">3</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Sunset Fade</h3>
+                                    <p>Gentle evening warmth</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="fire" data-submode="3">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ee5a6f 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('fire', 3)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('fire', 3)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button class="btn-start" onclick="startSpecialMode('fire')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+                        </svg>
+                        <span>Start Fireplace Mode</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Sex Trip Category -->
+            <section class="modes-section glass-panel" id="sextrip-section">
+                <div class="modes-header">
+                    <h2 class="card-title">Sex Trip Effects</h2>
+                    <div class="modes-info">
+                        <span id="sextrip-selected">3 selected</span>
+                        <button class="btn-reset" onclick="resetCategory('sextrip')">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M3 12H7M3 12L6 9M3 12L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Reset Order
+                        </button>
+                    </div>
+                </div>
+
+                <div class="submodes-grid">
+                    <div class="submode-card" data-category="sextrip" data-submode="1">
+                        <div class="submode-order">1</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Purple Pulse</h3>
+                                    <p>Deep purple waves with intensity</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="sextrip" data-submode="1">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(135deg, #6b21a8 0%, #a855f7 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('sextrip', 1)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('sextrip', 1)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="sextrip" data-submode="2">
+                        <div class="submode-order">2</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Red Passion</h3>
+                                    <p>Hot red fade with sensual rhythm</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="sextrip" data-submode="2">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(135deg, #dc2626 0%, #f87171 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('sextrip', 2)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('sextrip', 2)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submode-card" data-category="sextrip" data-submode="3">
+                        <div class="submode-order">3</div>
+                        <div class="submode-content">
+                            <div class="submode-header">
+                                <div class="submode-info">
+                                    <h3>Pink Dream</h3>
+                                    <p>Soft purple-pink transition</p>
+                                </div>
+                                <label class="toggle-label">
+                                    <input type="checkbox" checked data-category="sextrip" data-submode="3">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="submode-preview" style="background: linear-gradient(135deg, #c026d3 0%, #ec4899 100%);"></div>
+                            <div class="submode-controls">
+                                <button class="control-btn" onclick="moveUp('sextrip', 3)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="control-btn" onclick="moveDown('sextrip', 3)">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button class="btn-start" onclick="startSpecialMode('sextrip')">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+                        </svg>
+                        <span>Start Sex Trip Mode</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+    <script src="special.js"></script>
+</body>
+</html>

@@ -3,7 +3,9 @@
 #include <ESPmDNS.h>
 #include <LittleFS.h>
 #include <FastLED.h>
-#include <fauxmoESP.h>
+
+const char* ssid = "Noite Diurna 2G";
+const char* password = "vaynevayne";
 
 // LED setup
 #define LED_PIN 4
@@ -12,20 +14,8 @@
 #define LED_TYPE WS2813
 #define COLOR_ORDER GRB
 
-// Keep Alexa callback fast: store command, handle in loop
-volatile bool alexaPending = false;
-String alexaDeviceName;
-volatile bool alexaState = false;
-volatile uint8_t alexaValue = 0;
-
-// Wifi
-const char* ssid = "Noite Diurna 2G";
-const char* password = "vaynevayne";
-
-fauxmoESP fauxmo;
-
 CRGB leds[NUM_LEDS];
-static AsyncWebServer server(81);
+static AsyncWebServer server(80);
 
 // Global state variables
 bool isOn = false;
@@ -145,31 +135,6 @@ CRGB blendColors(CRGB color1, CRGB color2, uint8_t amount) {
     ((uint16_t)color1.g * (255 - amount) + (uint16_t)color2.g * amount) / 255,
     ((uint16_t)color1.b * (255 - amount) + (uint16_t)color2.b * amount) / 255
   );
-}
-
-void stopAll() {
-  isOn = false;
-  specialMode = false;
-  fill_solid(leds, NUM_LEDS, CRGB::Black);
-  FastLED.show();
-}
-
-void startCategory(const String& cat) {
-  // cat must be "fireplace" or "sextrip"
-  currentMode = cat;
-  specialMode = true;
-  specialCategory = cat;
-
-  // Default: cycle 1,2,3 forever (like your UI commonly does)
-  specialSubmodeCount = 3;
-  specialSubmodes[0] = 1;
-  specialSubmodes[1] = 2;
-  specialSubmodes[2] = 3;
-
-  currentSpecialSubmode = 0;
-  specialSubmodeStartTime = millis();
-
-  isOn = true;
 }
 
 // Standard mode update functions (unchanged)
@@ -681,7 +646,6 @@ void setup() {
     Serial.println("mDNS FAILED!");
   }
 
-
   if (!LittleFS.begin(true)) {
     Serial.println("LittleFS mount FAILED");
     return;
@@ -693,29 +657,13 @@ void setup() {
   server.serveStatic("/script.js", LittleFS, "/script.js");
   server.serveStatic("/style.css", LittleFS, "/style.css");
   server.serveStatic("/special.html", LittleFS, "/special.html");
+  server.serveStatic("/special.css", LittleFS, "/special.css");
   server.serveStatic("/special.js", LittleFS, "/special.js");
 
   FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.clear();
   FastLED.show();
-
-  // Alexa (fauxmoESP)
-  fauxmo.setPort(80);        // required for gen3 devices [page:1]
-  fauxmo.enable(true);
-
-  fauxmo.addDevice("LED Strip");
-  fauxmo.addDevice("Fireplace");
-  fauxmo.addDevice("Night Lights");
-
-  fauxmo.onSetState([](unsigned char device_id, const char * device_name, bool state, unsigned char value) {
-    // Keep it fast: just store and exit [page:1]
-    alexaDeviceName = device_name;
-    alexaState = state;
-    alexaValue = value; // 0..255 brightness [page:0]
-    alexaPending = true;
-  });
-
 
   server.on("/state", HTTP_GET, [](AsyncWebServerRequest *request) {
     String json = "{";
@@ -828,40 +776,26 @@ void setup() {
     emberStates[i] = 100;
     hearthSparkles[i] = 0;
   }
-
-
 }
 
 void loop() {
-  fauxmo.handle();
-
-  if (alexaPending) {
-    alexaPending = false;
-
-    if (alexaDeviceName == "LED Strip") {
-      if (alexaState) {
-        isOn = true;               // resumes last mode if you want
-      } else {
-        stopAll();
-      }
-    } else if (alexaDeviceName == "Fireplace") {
-      if (alexaState) startCategory("fireplace");
-      else stopAll();
-    } else if (alexaDeviceName == "Night Lights") {
-      if (alexaState) startCategory("sextrip");
-      else stopAll();
-    }
-  }
-
-  // Your existing rendering logic
   if (isOn) {
-    if (specialMode) updateSpecialMode();
-    else if (currentMode == "solid") updateSolid();
-    else if (currentMode == "wave") updateWave();
-    else if (currentMode == "rainbow") updateRainbow();
-    else if (currentMode == "fade") updateFade();
-    else if (currentMode == "strobe") updateStrobe();
-    else if (currentMode == "chase") updateChase();
+    if (specialMode) {
+      updateSpecialMode();
+    } else if (currentMode == "solid") {
+      updateSolid();
+    } else if (currentMode == "wave") {
+      updateWave();
+    } else if (currentMode == "rainbow") {
+      updateRainbow();
+    } else if (currentMode == "fade") {
+      updateFade();
+    } else if (currentMode == "strobe") {
+      updateStrobe();
+    } else if (currentMode == "chase") {
+      updateChase();
+    }
+
     FastLED.show();
   }
 

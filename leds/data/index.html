@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Strip Controller Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="background-gradient"></div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>LED Controller</h1>
+                        <span class="version">Pro v2.0</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator" id="statusIndicator">
+                        <div class="status-dot"></div>
+                        <span id="statusText">Connecting...</span>
+                    </div>
+                    <button class="icon-btn" id="settingsBtn" title="Settings">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- LED Preview Section -->
+            <section class="led-preview-section glass-panel">
+                <div class="preview-header">
+                    <h2>Live Preview</h2>
+                    <div class="preview-controls">
+                        <button class="preview-btn" id="previewPlayPause" title="Play/Pause">
+                            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                                <rect x="6" y="4" width="4" height="16"/>
+                                <rect x="14" y="4" width="4" height="16"/>
+                            </svg>
+                        </button>
+                        <span class="led-count" id="ledCount">150 LEDs</span>
+                    </div>
+                </div>
+                <div class="led-strip-container">
+                    <canvas id="ledCanvas"></canvas>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <div class="control-grid">
+                <!-- Mode Selection Card -->
+                <section class="control-card glass-panel">
+                    <h2 class="card-title">Mode Selection</h2>
+                    <div class="mode-grid">
+                        <button class="mode-card active" data-mode="solid">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="currentColor" opacity="0.3"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Solid</span>
+                        </button>
+                        <button class="mode-card" data-mode="rainbow">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Rainbow</span>
+                        </button>
+                        <button class="mode-card" data-mode="wave">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 12C2 12 4 8 6 8C8 8 8 16 10 16C12 16 12 8 14 8C16 8 16 16 18 16C20 16 22 12 22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Wave</span>
+                        </button>
+                        <button class="mode-card" data-mode="fade">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Fade</span>
+                        </button>
+                        <button class="mode-card" data-mode="strobe">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Strobe</span>
+                        </button>
+                        <button class="mode-card" data-mode="chase">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Chase</span>
+                        </button>
+                        <button class="mode-card special-mode" data-mode="special">
+                            <div class="mode-icon" style="background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" fill="currentColor" opacity="0.3"/>
+                                </svg>
+                            </div>
+                            <span class="mode-label">Special</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Mode Controls Card -->
+                <section class="control-card glass-panel">
+                    <h2 class="card-title" id="controlsTitle">Solid Color Controls</h2>
+
+                    <!-- Solid Mode Controls -->
+                    <div class="mode-controls active" id="solid-controls">
+                        <div class="control-group">
+                            <label class="control-label">Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="solid-color" value="#667eea">
+                                <div class="color-display" id="solid-color-display">
+                                    <span class="color-hex">#667eea</span>
+                                </div>
+                            </div>
+                            <div class="preset-colors" data-target="solid-color">
+                                <button class="preset-color" style="background: #ff0000;" data-color="#ff0000"></button>
+                                <button class="preset-color" style="background: #ff8800;" data-color="#ff8800"></button>
+                                <button class="preset-color" style="background: #ffff00;" data-color="#ffff00"></button>
+                                <button class="preset-color" style="background: #00ff00;" data-color="#00ff00"></button>
+                                <button class="preset-color" style="background: #00ffff;" data-color="#00ffff"></button>
+                                <button class="preset-color" style="background: #0088ff;" data-color="#0088ff"></button>
+                                <button class="preset-color" style="background: #8800ff;" data-color="#8800ff"></button>
+                                <button class="preset-color" style="background: #ff00ff;" data-color="#ff00ff"></button>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Brightness</span>
+                                <span class="control-value" id="solid-brightness-value">100%</span>
+                            </label>
+                            <input type="range" class="slider" id="solid-brightness" min="0" max="100" value="100">
+                        </div>
+                    </div>
+
+                    <!-- Rainbow Mode Controls -->
+                    <div class="mode-controls" id="rainbow-controls">
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Speed</span>
+                                <span class="control-value" id="rainbow-speed-value">50</span>
+                            </label>
+                            <input type="range" class="slider" id="rainbow-speed" min="1" max="100" value="50">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Brightness</span>
+                                <span class="control-value" id="rainbow-brightness-value">100%</span>
+                            </label>
+                            <input type="range" class="slider" id="rainbow-brightness" min="0" max="100" value="100">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Saturation</span>
+                                <span class="control-value" id="rainbow-saturation-value">100%</span>
+                            </label>
+                            <input type="range" class="slider" id="rainbow-saturation" min="0" max="100" value="100">
+                        </div>
+                    </div>
+
+                    <!-- Wave Mode Controls -->
+                    <div class="mode-controls" id="wave-controls">
+                        <div class="control-group">
+                            <label class="control-label">Start Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="wave-color1" value="#667eea">
+                                <div class="color-display" id="wave-color1-display">
+                                    <span class="color-hex">#667eea</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">End Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="wave-color2" value="#764ba2">
+                                <div class="color-display" id="wave-color2-display">
+                                    <span class="color-hex">#764ba2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Speed</span>
+                                <span class="control-value" id="wave-speed-value">50</span>
+                            </label>
+                            <input type="range" class="slider" id="wave-speed" min="1" max="100" value="50">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Wave Length</span>
+                                <span class="control-value" id="wave-length-value">20 LEDs</span>
+                            </label>
+                            <input type="range" class="slider" id="wave-length" min="5" max="50" value="20">
+                        </div>
+                    </div>
+
+                    <!-- Fade Mode Controls -->
+                    <div class="mode-controls" id="fade-controls">
+                        <div class="control-group">
+                            <label class="control-label">Color 1</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="fade-color1" value="#f093fb">
+                                <div class="color-display" id="fade-color1-display">
+                                    <span class="color-hex">#f093fb</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Color 2</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="fade-color2" value="#f5576c">
+                                <div class="color-display" id="fade-color2-display">
+                                    <span class="color-hex">#f5576c</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Transition Speed</span>
+                                <span class="control-value" id="fade-speed-value">40</span>
+                            </label>
+                            <input type="range" class="slider" id="fade-speed" min="1" max="100" value="40">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Smoothness</span>
+                                <span class="control-value" id="fade-smooth-value">5</span>
+                            </label>
+                            <input type="range" class="slider" id="fade-smooth" min="1" max="10" value="5">
+                        </div>
+                    </div>
+
+                    <!-- Strobe Mode Controls -->
+                    <div class="mode-controls" id="strobe-controls">
+                        <div class="control-group">
+                            <label class="control-label">Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="strobe-color" value="#ffffff">
+                                <div class="color-display" id="strobe-color-display">
+                                    <span class="color-hex">#ffffff</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Speed</span>
+                                <span class="control-value" id="strobe-speed-value">15 Hz</span>
+                            </label>
+                            <input type="range" class="slider" id="strobe-speed" min="1" max="50" value="15">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Intensity</span>
+                                <span class="control-value" id="strobe-intensity-value">100%</span>
+                            </label>
+                            <input type="range" class="slider" id="strobe-intensity" min="10" max="100" value="100">
+                        </div>
+                    </div>
+
+                    <!-- Chase Mode Controls -->
+                    <div class="mode-controls" id="chase-controls">
+                        <div class="control-group">
+                            <label class="control-label">Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="chase-color" value="#feca57">
+                                <div class="color-display" id="chase-color-display">
+                                    <span class="color-hex">#feca57</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Speed</span>
+                                <span class="control-value" id="chase-speed-value">40</span>
+                            </label>
+                            <input type="range" class="slider" id="chase-speed" min="1" max="100" value="40">
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span>Spacing</span>
+                                <span class="control-value" id="chase-spacing-value">3 LEDs</span>
+                            </label>
+                            <input type="range" class="slider" id="chase-spacing" min="1" max="10" value="3">
+                        </div>
+                        <div class="control-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="chase-direction">
+                                <span class="toggle-slider"></span>
+                                <span>Reverse Direction</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Special Mode Info -->
+                    <div class="mode-controls" id="special-controls">
+                        <div class="special-mode-info">
+                            <p>Configure special themed modes including Christmas, Fire, and custom effects.</p>
+                            <button class="btn btn-secondary" id="openSpecialBtn">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                <span>Open Special Modes</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Presets Card -->
+                <section class="control-card glass-panel presets-card">
+                    <h2 class="card-title">Saved Presets</h2>
+                    <div class="presets-grid" id="presetsGrid">
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <p>No presets saved yet</p>
+                            <small>Save your favorite settings as presets</small>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quick Actions Card -->
+                <section class="control-card glass-panel quick-actions-card">
+                    <h2 class="card-title">Quick Actions</h2>
+                    <div class="quick-actions">
+                        <button class="action-btn action-btn-power" id="powerBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2V12M19 8C19 8 19 16 12 16C5 16 5 8 5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <span>Power Off</span>
+                        </button>
+                        <button class="action-btn action-btn-apply" id="applyBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Apply Now</span>
+                        </button>
+                        <button class="action-btn action-btn-save" id="savePresetBtn">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16L21 8V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M7 3V8H15" stroke="currentColor" stroke-width="2"/>
+                                <path d="M7 13H17V21H7V13Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Save Preset</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

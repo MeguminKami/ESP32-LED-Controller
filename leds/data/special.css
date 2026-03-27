@@ -1,0 +1,388 @@
+/* ===========================
+   Special Modes Styling
+   =========================== */
+
+/* Back Button */
+.back-btn {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 12px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-3px);
+}
+
+.back-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* ===========================
+   Category Section
+   =========================== */
+.category-section {
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius);
+    padding: 25px 20px;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+}
+
+.category-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.category-card.active {
+    border-color: var(--color-primary);
+    background: rgba(102, 126, 234, 0.15);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+}
+
+.category-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.category-icon svg {
+    width: 36px;
+    height: 36px;
+}
+
+.category-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.category-count {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* ===========================
+   Modes Section
+   =========================== */
+.modes-section {
+    padding: 25px;
+    display: none;
+}
+
+.modes-section.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+.modes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.modes-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.modes-info span {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.btn-reset {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.btn-reset:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.btn-reset svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ===========================
+   Submodes Grid
+   =========================== */
+.submodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.submode-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+    transition: all var(--transition-speed);
+}
+
+.submode-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.submode-card.disabled {
+    opacity: 0.5;
+}
+
+.submode-order {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    z-index: 10;
+}
+
+.submode-content {
+    padding: 60px 20px 20px 20px;
+}
+
+.submode-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.submode-info {
+    flex: 1;
+}
+
+.submode-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 6px;
+}
+
+.submode-info p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+.submode-preview {
+    width: 100%;
+    height: 80px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+    50% { box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3); }
+}
+
+.submode-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 10px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.control-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ===========================
+   Action Section
+   =========================== */
+.action-section {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 40px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    border: none;
+    border-radius: var(--border-radius);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-start:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(102, 126, 234, 0.6);
+}
+
+.btn-start:active {
+    transform: translateY(-1px);
+}
+
+.btn-start svg {
+    width: 22px;
+    height: 22px;
+}
+
+.btn-start.running {
+    background: linear-gradient(135deg, var(--color-success), #22c55e);
+    box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.btn-start.running:hover {
+    box-shadow: 0 8px 28px rgba(74, 222, 128, 0.6);
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .submodes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modes-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .modes-info {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .submode-header {
+        flex-direction: column;
+    }
+
+    .btn-start {
+        width: 100%;
+    }
+}
+
+/* ===========================
+   Animations
+   =========================== */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.submode-card {
+    animation: slideInUp 0.4s ease backwards;
+}
+
+.submode-card:nth-child(1) { animation-delay: 0.05s; }
+.submode-card:nth-child(2) { animation-delay: 0.1s; }
+.submode-card:nth-child(3) { animation-delay: 0.15s; }
+.submode-card:nth-child(4) { animation-delay: 0.2s; }
+.submode-card:nth-child(5) { animation-delay: 0.25s; }
