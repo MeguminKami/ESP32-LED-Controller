@@ -189,14 +189,7 @@ ESP32-LED-Controller/
 └─ tools/
    └─ ESP32FS/
       └─ tool/
-```
-
----
-
-## Screenshots
-
-> Add your UI screenshots here for the main page and special modes page.
-
+```-
 ---
 
 ## Troubleshooting
@@ -248,6 +241,6 @@ ESP32-LED-Controller/
 
 ## License
 
-No license file is currently present in the repository.
+This project is licensed under the MIT License.
 
-If you plan to distribute or accept contributions, adding a license is recommended.
+See [LICENSE](LICENSE) for details.
