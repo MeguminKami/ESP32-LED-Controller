@@ -189,7 +189,7 @@ ESP32-LED-Controller/
 └─ tools/
    └─ ESP32FS/
       └─ tool/
-```-
+```
 ---
 
 ## Troubleshooting
@@ -238,9 +238,3 @@ ESP32-LED-Controller/
 - Persisted on-device configuration UI
 
 ---
-
-## License
-
-This project is licensed under the MIT License.
-
-See [LICENSE](LICENSE) for details.
